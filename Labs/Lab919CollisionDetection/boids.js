@@ -49,3 +49,4 @@ this.render = function(){
   triangle(-5,0,5,0,0,-15);
   pop() // pop or restpre the coordinate system
 }
+}
