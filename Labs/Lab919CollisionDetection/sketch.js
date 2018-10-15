@@ -12,21 +12,22 @@ function setup() {
 }
 
 function draw() {
-    background(20,20,20,90)
-    redBall.run();
-for(var i = 0 ; i < boids.length; i++){
+  background(20,20,20,90)
+  redBall.run();
+  for(var i = 0 ; i < boids.length; i++){
   boids[i].run();
 }
 }
 
 function loadBoids(numboids){
   for(var i = 0; i < numboids; i++){
-    var loc = createVector(random(width), random(height));
-    var vel = createVector(random(-3,3), random(-3,3));
-    var clr = color(random(255), random(255), random(255));
+    var location = createVector(random(width), random(height));
+    var velocity = createVector(random(-3,3), random(-3,3));
+    var col = color(100, 100, 100);
 
-    boids.push(new Boid(loc, vel, clr));
+    boids.push(new Boid(location, velocity, col));
   }
+  console.log(boids.length);
 }
   function loadBall(){
     var location = createVector(width/2, height/2);

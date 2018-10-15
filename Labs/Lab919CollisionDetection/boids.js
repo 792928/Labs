@@ -4,11 +4,10 @@
 ** Aug 21, 2018
 */
 
-function Boid(location, velocity, radius, col){
+function Boid(location, velocity, col){
   // Instance variables
   this.loc = location;
   this.vel = velocity;
-  this.rad = radius;
   this.col = col;
   //this.acc = createVector(0,.1);
   // THis function calls other fucntions
@@ -20,32 +19,34 @@ function Boid(location, velocity, radius, col){
 //This function changes the location of the Ball
 // by adding speed to x and y
 this.update = function(){
-  this.vel.add(this.acc);
   this.loc.add(this.vel);
-  var d = this.loc.dist(redBall.loc);
-  // p5.Vector.sub()  returns a vector
-  if(d<200){
-  var steeringForce = p5.Vector.sub(this.loc, redBall.loc);
-  steeringForce.normalize();  //  changes the magnitud to 1
-  steeringForce.mult(.1);    //  scales the magnitude to 0.5
-  this.vel.add(steeringForce);
-
-}
+  for (var i = 0; i < boids.length; i++){
+  var dist = boids[i].loc.dist(redBall.loc);
+    if (dist < 20){
+      boids.splice(i, 1)
+      if(dist<200){
+      var steeringForce = p5.Vector.sub(this.loc, redBall.loc);
+      steeringForce.normalize(1);  //  changes the magnitud to 1
+      steeringForce.mult(.5);    //  scales the magnitude to 0.5
+      this.vel.add(steeringForce);
+     }
+    }
+  }
 }
 
 //checkEdges() reverses speed when the ball touches an edge
 this.checkEdges = function(){
-  if(this.loc.x < 0) this.loc.x = width;
-  if(this.loc.x > width) this.loc.x = 0;
-  if(this.loc.y < 0) this.loc.y = height;
-  if(this.loc.y > height) this.loc.y = 0;
+  if(this.loc.x < 0) this.vel.x = -this.vel.x;
+  if(this.loc.x > width) this.vel.x = -this.vel.x;
+  if(this.loc.y < 0) this.vel.y = -this.vel.y;
+  if(this.loc.y > height) this.vel.y = -this.vel.y;
 }
 
 // render() draws the ball at the new locatoin
 this.render = function(){
-  push()
+  fill(this.col);
+  push();
   translate(this.loc.x, this.loc.y);
-  rotate(this.vel.heading() = radians(90));
   triangle(-5,0,5,0,0,-15);
   pop() // pop or restpre the coordinate system
 }
