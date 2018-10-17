@@ -1,33 +1,61 @@
 //  Global variables
 var balls = [];
-
+var paddle;
+var a = 0;
+var c = 0;
+var w = 150;
 // put setup code here
 function setup() {
   var cnv = createCanvas(800, 800);
   cnv.position((windowWidth-width)/2, 30);
   background(20,20,20);
-LoadBalls(69);
+  b=20*(1+a);
+loadBalls(b);
+loadPaddle();
+
 // method call ^^
 }
 
 function draw() {
+  fill (255,255,255)
   background(20,20,20);
-for(i=0; i<balls.length; i++){
+  paddle.run();
+  textSize(25);
+  fill(255,255,255);
+  text("score:",50,50);
+  text(c,140,50);
+for(var i = 0; i<balls.length; i++){
   balls[i].run();
 }
+if(balls.length === 0){
+  if (c > 1000){
+    w = 0;
+    a = 0;
+    textSize(40);
+    fill(255,255,255);
+    text("You Won!",300,400);
+
+  }
+  else{
+    a = a+1;
+    setup();
+  }
+}
 }
 
-function LoadBalls(numballs){
-  for(var i = 0; i < numballs; i = i + 1){
-    var loc = createVector(random(width), random(height));
-    var vel = createVector(random(-3,3), random(-3,3));
-    var radius = random(20,40);
-    var col = color(random(255), random(255), random(255));
+function loadBalls(numBalls){
+  for(var i = 0; i < numBalls; i = i + 1){
+    var location = createVector(random(width), random(0,200));
+    var velocity = createVector(random(-3,3), random(-3,3));
+    var rad = 20;
+    var col = color(255,255,255);
 
-    balls.push(new Ball(loc, vel, radius, col));
+    balls.push(new Ball(location, velocity, col, rad));
   }
-  function Paddle(){
-    var vel = createVector(0,0)
-    
+  function loadPaddle(){
+    var velocity = createVector(0,0);
+    var col = color(255,255,0);
+    paddle = new Paddle(velocity,col);
+
   }
 }
